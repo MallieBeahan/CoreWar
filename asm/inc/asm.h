@@ -6,7 +6,7 @@
 /*   By: mbeahan <mbeahan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/10 15:14:38 by mbeahan           #+#    #+#             */
-/*   Updated: 2019/09/10 16:49:54 by mbeahan          ###   ########.fr       */
+/*   Updated: 2019/10/28 17:45:36 by mbeahan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,52 @@
 #include "../../libft/includes/libft.h"
 #include "../../ft_printf/include/ft_printf.h"
 
-typedef struct	s_champ_info
+typedef enum	e_type
 {
-    unsigned int	is_name:1;
-    char			*champ_name;
-    char			*champ_comment;
-	char			*champ_extend;
-}				t_champ_info;
+	LABEL,
+	INSTRUCTION,
+	DIRECT,
+	DIRLABEL,
+	INDIRECT,
+	INDIRLABEL,
+	REGISTER
+}				t_type;
 
-header_t		get_champ_info(header_t champ, int fd);
-int				check_extension(char *av);
+typedef enum	e_op
+{
+	live,
+	ld,
+    st,
+    add,
+    sub,
+    and,
+    or,
+    xor,
+    zjmp,
+    ldi,
+    sti,
+    ffork,
+    lld,
+    lldi,
+    lfork,
+    aff
+}				t_op;
+
+typedef struct	s_file
+{
+	char				*str;
+	t_type				type;
+	t_op				op;
+    struct s_file 		*next;
+}				t_file;
+
+typedef struct	s_asm
+{
+    char        **split;
+    char        **error;
+	t_file		*file;
+	char		*name;
+	char		*comment;
+}				t_asm;
 
 #endif
